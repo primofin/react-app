@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 import './App.css';
+import Mp4ToGifConverter from './Mp4ToGifConverter';
 
 function App() {
   const [videoSrc, setVideoSrc] = useState('');
@@ -16,14 +17,20 @@ function App() {
     await ffmpeg.run('-i', 'test.avi', 'test.mp4');
     setMessage('Complete transcoding');
     const data = ffmpeg.FS('readFile', 'test.mp4');
-    setVideoSrc(URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' })));
+    setVideoSrc(
+      URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }))
+    );
   };
   return (
-    <div className="App">
-      <p/>
-      <video src={videoSrc} controls></video><br/>
+    <div className='App'>
+      <h2>Convert Avid file to MP4</h2>
+      <video src={videoSrc} controls></video>
+      <br />
       <button onClick={doTranscode}>Start</button>
       <p>{message}</p>
+      <hr />
+      <h2>Convert Mp4 to Gif</h2>
+      <Mp4ToGifConverter />
     </div>
   );
 }
